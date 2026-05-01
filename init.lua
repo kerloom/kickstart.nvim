@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -291,6 +291,29 @@ require('lazy').setup({
       },
     },
   },
+
+{
+  "NeogitOrg/neogit",
+  lazy = true,
+  dependencies = {
+    -- Only one of these is needed.
+    "sindrets/diffview.nvim",        -- optional
+    -- "esmuellert/codediff.nvim",      -- optional
+
+    -- For a custom log pager
+    -- "m00qek/baleia.nvim",            -- optional
+
+    -- Only one of these is needed.
+    "nvim-telescope/telescope.nvim", -- optional
+    -- "ibhagwan/fzf-lua",              -- optional
+    -- "nvim-mini/mini.pick",           -- optional
+    -- "folke/snacks.nvim",             -- optional
+  },
+  cmd = "Neogit",
+  keys = {
+    { "<leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" }
+  }
+},
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -900,7 +923,26 @@ require('lazy').setup({
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
       -- ensure basic parser are installed
-      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local parsers = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'css',
+        'jsx',
+        'tsx',
+        'javascript',
+        'typescript',
+        'csharp',
+        'python',
+      }
       require('nvim-treesitter').install(parsers)
 
       ---@param buf integer
