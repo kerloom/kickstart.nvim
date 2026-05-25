@@ -84,6 +84,10 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- Disable netrw (Neovim's built-in file browser) so nvim-tree can take over
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -166,6 +170,9 @@ vim.o.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+-- [[ Custom Commands ]]
+vim.api.nvim_create_user_command('Vr', function(args) vim.cmd('vertical resize ' .. args.args) end, { nargs = 1 })
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -434,6 +441,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sF', function()
+        builtin.find_files { no_ignore = true, hidden = true }
+      end, { desc = '[S]earch [F]iles (including gitignored)' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -1012,6 +1022,25 @@ require('lazy').setup({
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommended keymaps
+
+  { -- File explorer tree
+    'nvim-tree/nvim-tree.lua',
+    dependencies = {
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    },
+    keys = {
+      { '<leader>e', '<cmd>NvimTreeToggle<cr>', desc = 'Toggle file [E]xplorer' },
+    },
+    opts = {
+      sort = { sorter = 'case_sensitive' },
+      view = { width = 30 },
+      renderer = {
+        group_empty = true, -- collapse folders that contain only one subfolder
+      },
+      filters = { dotfiles = false }, -- set to true to hide dotfiles by default (toggle with H)
+      git = { enable = true },
+    },
+  },
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
