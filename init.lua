@@ -646,8 +646,8 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {},
-        omnisharp = {},
+        vtsls = {},
+        csharp_ls = {},
 
         stylua = {}, -- Used to format Lua code
 
@@ -1029,11 +1029,12 @@ require('lazy').setup({
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     keys = {
-      { '<leader>e', '<cmd>NvimTreeToggle<cr>', desc = 'Toggle file [E]xplorer' },
+      { '<leader>e', '<cmd>NvimTreeToggle<cr>', desc = 'Toggle file [e]xplorer' },
+      { '<leader>E', '<cmd>NvimTreeFindFileToggle<cr>', desc = 'Find file & toggle [E]xplorer' },
     },
     opts = {
       sort = { sorter = 'case_sensitive' },
-      view = { width = 30 },
+      view = { width = 40 },
       renderer = {
         group_empty = true, -- collapse folders that contain only one subfolder
       },
